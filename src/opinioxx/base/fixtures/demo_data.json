@@ -1,0 +1,900 @@
+[
+  {
+    "model": "base.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$216000$7JVvckYpOtYj$v00STBNA7wanG1tmXmKW5REaPsQiACHJgMipnuwKOZ8=",
+      "last_login": "2020-01-01T00:00:00Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-01-01T00:00:00Z",
+      "notify_interval": 7,
+      "add_new_projects_to_notify_list": false,
+      "notify_new_idea": false,
+      "notify_state_changed": false,
+      "notify_comments": false,
+      "penultimate_login": null,
+      "groups": [],
+      "user_permissions": [],
+      "notifiable_projects": []
+    }
+  },
+  {
+    "model": "base.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$216000$nAsdeTEVE647$6D52ciwsX8D8gP3XNf5Mz3MF5yEik/wCP8TteJEKrX0=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user1",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-01-01T00:00:00Z",
+      "notify_interval": 7,
+      "add_new_projects_to_notify_list": false,
+      "notify_new_idea": false,
+      "notify_state_changed": false,
+      "notify_comments": false,
+      "penultimate_login": null,
+      "groups": [],
+      "user_permissions": [],
+      "notifiable_projects": []
+    }
+  },
+  {
+    "model": "base.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$216000$nAsdeTEVE647$6D52ciwsX8D8gP3XNf5Mz3MF5yEik/wCP8TteJEKrX0=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user2",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-01-01T00:00:00Z",
+      "notify_interval": 7,
+      "add_new_projects_to_notify_list": false,
+      "notify_new_idea": false,
+      "notify_state_changed": false,
+      "notify_comments": false,
+      "penultimate_login": null,
+      "groups": [],
+      "user_permissions": [],
+      "notifiable_projects": []
+    }
+  },
+  {
+    "model": "base.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$216000$nAsdeTEVE647$6D52ciwsX8D8gP3XNf5Mz3MF5yEik/wCP8TteJEKrX0=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user3",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-01-01T00:00:00Z",
+      "notify_interval": 7,
+      "add_new_projects_to_notify_list": false,
+      "notify_new_idea": false,
+      "notify_state_changed": false,
+      "notify_comments": false,
+      "penultimate_login": null,
+      "groups": [],
+      "user_permissions": [],
+      "notifiable_projects": []
+    }
+  },
+  {
+    "model": "base.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$216000$nAsdeTEVE647$6D52ciwsX8D8gP3XNf5Mz3MF5yEik/wCP8TteJEKrX0=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user4",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-01-01T00:00:00Z",
+      "notify_interval": 7,
+      "add_new_projects_to_notify_list": false,
+      "notify_new_idea": false,
+      "notify_state_changed": false,
+      "notify_comments": false,
+      "penultimate_login": null,
+      "groups": [],
+      "user_permissions": [],
+      "notifiable_projects": []
+    }
+  },
+  {
+    "model": "base.user",
+    "pk": 6,
+    "fields": {
+      "password": "pbkdf2_sha256$216000$nAsdeTEVE647$6D52ciwsX8D8gP3XNf5Mz3MF5yEik/wCP8TteJEKrX0=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user5",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-01-01T00:00:00Z",
+      "notify_interval": 7,
+      "add_new_projects_to_notify_list": false,
+      "notify_new_idea": false,
+      "notify_state_changed": false,
+      "notify_comments": false,
+      "penultimate_login": null,
+      "groups": [],
+      "user_permissions": [],
+      "notifiable_projects": []
+    }
+  },
+  {
+    "model": "base.user",
+    "pk": 7,
+    "fields": {
+      "password": "pbkdf2_sha256$216000$nAsdeTEVE647$6D52ciwsX8D8gP3XNf5Mz3MF5yEik/wCP8TteJEKrX0=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user6",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-01-01T00:00:00Z",
+      "notify_interval": 7,
+      "add_new_projects_to_notify_list": false,
+      "notify_new_idea": false,
+      "notify_state_changed": false,
+      "notify_comments": false,
+      "penultimate_login": null,
+      "groups": [],
+      "user_permissions": [],
+      "notifiable_projects": []
+    }
+  },
+  {
+    "model": "base.user",
+    "pk": 8,
+    "fields": {
+      "password": "pbkdf2_sha256$216000$nAsdeTEVE647$6D52ciwsX8D8gP3XNf5Mz3MF5yEik/wCP8TteJEKrX0=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user7",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-01-01T00:00:00Z",
+      "notify_interval": 7,
+      "add_new_projects_to_notify_list": false,
+      "notify_new_idea": false,
+      "notify_state_changed": false,
+      "notify_comments": false,
+      "penultimate_login": null,
+      "groups": [],
+      "user_permissions": [],
+      "notifiable_projects": []
+    }
+  },
+  {
+    "model": "base.project",
+    "pk": 1,
+    "fields": {
+      "name": "Demoprojekt",
+      "description": "Dies ist ein Demoprojekt, welches für alle Benutzer sichtbar ist.",
+      "public_visible": true,
+      "public_voting": false,
+      "public_comments": false,
+      "anonymous_votes": false,
+      "automatic_closing_limit": -3,
+      "new_idea_description": "Auf dieser Seite kannst du neues Feedback eintragen. Dabei wird der Autor des Feedbacks nirgendwo sichtbar gespeichert, es ist also absolut anonym, Feedback einzutragen. Beachte dabei bitte, dass du nur sinnvolles und konstruktives Feedback einträgst.",
+      "max_favorites": 1,
+      "favorite_value": 1.0,
+      "admins": [
+        1,
+        7
+      ],
+      "users": [
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  },
+  {
+    "model": "base.project",
+    "pk": 2,
+    "fields": {
+      "name": "zweites Projekt",
+      "description": "Dies ist ein Projekt, welches nur von ein paar Benutzern abgestimmt werden kann.",
+      "public_visible": true,
+      "public_voting": false,
+      "public_comments": false,
+      "anonymous_votes": false,
+      "automatic_closing_limit": -3,
+      "new_idea_description": "Auf dieser Seite kannst du neues Feedback eintragen. Dabei wird der Autor des Feedbacks nirgendwo sichtbar gespeichert, es ist also absolut anonym, Feedback einzutragen. Beachte dabei bitte, dass du nur sinnvolles und konstruktives Feedback einträgst.",
+      "max_favorites": 1,
+      "favorite_value": 1.0,
+      "admins": [
+        1,
+        7
+      ],
+      "users": [
+        2,
+        3
+      ]
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 1,
+    "fields": {
+      "title": "Höhenverstellbare Tische für alle",
+      "description": "Alle Mitarbeiter sollten höhenverstellbare Tische bekommen, um ein rückenschonendes Arbeiten zu ermöglichen.",
+      "project": 1,
+      "state": "O",
+      "date": "2020-01-02"
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 1,
+    "fields": {
+      "title": "Höhenverstellbare Tische für alle",
+      "description": "Alle Mitarbeiter sollten höhenverstellbare Tische bekommen, um ein rückenschonendes Arbeiten zu ermöglichen.",
+      "project": 1,
+      "state": "O",
+      "date": "2020-01-02"
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 2,
+    "fields": {
+      "title": "2 Bildschirme pro Arbeitsplatz",
+      "description": "Alle Mitarbeiter sollten zwei Monitore bekommen, um ein effizientes Arbeiten zu ermöglichen.",
+      "project": 1,
+      "state": "O",
+      "date": "2020-02-02"
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 3,
+    "fields": {
+      "title": "Freitags Eis für alle",
+      "description": "Jeden Freitag nach der Mittagspause sollte es kostenlos Eis für alle geben!",
+      "project": 1,
+      "state": "N",
+      "date": "2020-02-02"
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 4,
+    "fields": {
+      "title": "Öfter Pommes in der Kantine",
+      "description": "Es sollte als Backupgericht jeden Tag auch Pommes in der Kantine geben. Nicht jeder mag diesen ökologischen Quatsch, den es sonst immer zu essen gibt...",
+      "project": 1,
+      "state": "O",
+      "date": "2020-03-02"
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 5,
+    "fields": {
+      "title": "Jeder sollte eine Sekretärin bekommen",
+      "description": "Jeder sollte für den Papierkram eine Sekretärin bekommen.",
+      "project": 1,
+      "state": "O",
+      "date": "2020-04-10"
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 6,
+    "fields": {
+      "title": "Anschaffung einer Klimaanlage",
+      "description": "Das Büro sollte endlich im Sommer gescheit gekühlt werden!",
+      "project": 1,
+      "state": "Y",
+      "date": "2020-05-05"
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 7,
+    "fields": {
+      "title": "Home Office für alle ermöglichen",
+      "description": "Alle Mitarbeiter sollten die Möglichkeit haben, unkompliziert Home Office zu machen und nicht nur die Außendienstmitarbeiter.",
+      "project": 1,
+      "state": "O",
+      "date": "2020-03-12"
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 8,
+    "fields": {
+      "title": "größere Weihnachtsfeier",
+      "description": "Die Weihnachtsfeier dieses Jahr soll die größte und schönste überhaupt werden!",
+      "project": 1,
+      "state": "O",
+      "date": "2020-07-09"
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 9,
+    "fields": {
+      "title": "Weihnachten frei für alle",
+      "description": "An Weihnachten sollte komplett frei sein - auch für die Notbesetzung! Jeder will zuhause bei seiner Familie sein.",
+      "project": 1,
+      "state": "N",
+      "date": "2020-04-02"
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 10,
+    "fields": {
+      "title": "Umstieg von SVN auf git",
+      "description": "Wir sollten unseren Code endlich mal von SVN auf git umziehen und mit der Zeit gehen.",
+      "project": 1,
+      "state": "Y",
+      "date": "2020-06-02"
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 11,
+    "fields": {
+      "title": "Testfeedback",
+      "description": "Hier könnte ihre Werbung stehen...",
+      "project": 2,
+      "state": "O",
+      "date": "2020-06-14"
+    }
+  },
+  {
+    "model": "base.idea",
+    "pk": 12,
+    "fields": {
+      "title": "noch mehr Feedback",
+      "description": "blah",
+      "project": 2,
+      "state": "O",
+      "date": "2020-05-13"
+    }
+  },
+  {
+    "model": "base.comment",
+    "pk": 1,
+    "fields": {
+      "content": "Das ist eine super Idee, ich habe ewig Rückenschmerzen, wenn ich von der Arbeit komme!",
+      "author": null,
+      "idea": 1,
+      "date": "2020-11-02",
+      "category": "N"
+    }
+  },
+  {
+    "model": "base.comment",
+    "pk": 2,
+    "fields": {
+      "content": "Wir müssen mal schauen, ob wir das kostentechnisch abbilden können. Bitte bleibt hier realistisch!",
+      "author": 8,
+      "idea": 1,
+      "date": "2020-04-14",
+      "category": "N"
+    }
+  },
+  {
+    "model": "base.comment",
+    "pk": 3,
+    "fields": {
+      "content": "Ist das nicht mega ungesund?!",
+      "author": null,
+      "idea": 4,
+      "date": "2020-05-04",
+      "category": "N"
+    }
+  },
+  {
+    "model": "base.comment",
+    "pk": 4,
+    "fields": {
+      "content": "Das haben wir sowieso schon länger geplant gehabt und nun dem Kollegen Mustermann die erforderlichen Zeiten eingeräumt, sodass der Vorschlag umgesetzt werden konnte.",
+      "author": 8,
+      "idea": 10,
+      "date": "2020-06-10",
+      "category": "A"
+    }
+  },
+  {
+    "model": "base.comment",
+    "pk": 5,
+    "fields": {
+      "content": "Wir haben gesammelt und das Projekt durch die Mitarbeiter selbst umsetzen können. Der Sommer kann kommen!",
+      "author": 7,
+      "idea": 6,
+      "date": "2020-06-01",
+      "category": "A"
+    }
+  },
+  {
+    "model": "base.comment",
+    "pk": 6,
+    "fields": {
+      "content": "Es ist heute schon mega warm, lasst uns das endlich umsetzen!",
+      "author": null,
+      "idea": 6,
+      "date": "2020-05-25",
+      "category": "N"
+    }
+  },
+  {
+    "model": "base.comment",
+    "pk": 7,
+    "fields": {
+      "content": "Das Feedback wurde automatisch abgelehnt, da es -3 Stimmen erhalten hat. Dieser Wert kann von dem Projekt-Administrator angepasst werden.",
+      "author": null,
+      "idea": 3,
+      "date": "2020-02-04",
+      "category": "C"
+    }
+  },
+  {
+    "model": "base.comment",
+    "pk": 8,
+    "fields": {
+      "content": "Das Feedback wurde automatisch abgelehnt, da es -3 Stimmen erhalten hat. Dieser Wert kann von dem Projekt-Administrator angepasst werden.",
+      "author": null,
+      "idea": 9,
+      "date": "2020-04-04",
+      "category": "C"
+    }
+  },
+  {
+    "model": "base.comment",
+    "pk": 9,
+    "fields": {
+      "content": "Ich mag keine Werbung...",
+      "author": null,
+      "idea": 11,
+      "date": "2020-06-14",
+      "category": "N"
+    }
+  },
+  {
+    "model": "base.comment",
+    "pk": 10,
+    "fields": {
+      "content": "Aufgrund der aktuellen finanziellen Lage können wir das leider nicht umsetzen.",
+      "author": 8,
+      "idea": 6,
+      "date": "2020-05-28",
+      "category": "C"
+    }
+  },
+  {
+    "model": "base.comment",
+    "pk": 11,
+    "fields": {
+      "content": "Aufgrund der massiven Proteste der Mitarbeiter müssen wir das wohl noch einmal überdenken...",
+      "author": 8,
+      "idea": 6,
+      "date": "2020-05-29",
+      "category": "R"
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 1,
+    "fields": {
+      "value": 1,
+      "user": 2,
+      "idea": 1
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 2,
+    "fields": {
+      "value": 1,
+      "user": 2,
+      "idea": 2
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 3,
+    "fields": {
+      "value": -1,
+      "user": 2,
+      "idea": 3
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 4,
+    "fields": {
+      "value": -1,
+      "user": 2,
+      "idea": 4
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 5,
+    "fields": {
+      "value": 0,
+      "user": 2,
+      "idea": 5
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 6,
+    "fields": {
+      "value": 1,
+      "user": 2,
+      "idea": 6
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 7,
+    "fields": {
+      "value": 1,
+      "user": 2,
+      "idea": 7
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 8,
+    "fields": {
+      "value": 1,
+      "user": 2,
+      "idea": 10
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 9,
+    "fields": {
+      "value": 0,
+      "user": 2,
+      "idea": 8
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 10,
+    "fields": {
+      "value": 1,
+      "user": 3,
+      "idea": 1
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 11,
+    "fields": {
+      "value": 1,
+      "user": 3,
+      "idea": 2
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 12,
+    "fields": {
+      "value": 1,
+      "user": 3,
+      "idea": 6
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 13,
+    "fields": {
+      "value": 0,
+      "user": 3,
+      "idea": 7
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 14,
+    "fields": {
+      "value": 1,
+      "user": 3,
+      "idea": 10
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 15,
+    "fields": {
+      "value": -1,
+      "user": 3,
+      "idea": 3
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 16,
+    "fields": {
+      "value": 0,
+      "user": 3,
+      "idea": 4
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 17,
+    "fields": {
+      "value": 0,
+      "user": 3,
+      "idea": 5
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 18,
+    "fields": {
+      "value": 1,
+      "user": 4,
+      "idea": 1
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 19,
+    "fields": {
+      "value": 1,
+      "user": 4,
+      "idea": 2
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 20,
+    "fields": {
+      "value": 0,
+      "user": 4,
+      "idea": 6
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 21,
+    "fields": {
+      "value": 1,
+      "user": 4,
+      "idea": 10
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 22,
+    "fields": {
+      "value": 0,
+      "user": 4,
+      "idea": 7
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 23,
+    "fields": {
+      "value": 1,
+      "user": 4,
+      "idea": 5
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 24,
+    "fields": {
+      "value": -1,
+      "user": 4,
+      "idea": 9
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 25,
+    "fields": {
+      "value": -1,
+      "user": 4,
+      "idea": 3
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 26,
+    "fields": {
+      "value": 1,
+      "user": 5,
+      "idea": 1
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 27,
+    "fields": {
+      "value": 1,
+      "user": 5,
+      "idea": 2
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 28,
+    "fields": {
+      "value": 1,
+      "user": 5,
+      "idea": 10
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 29,
+    "fields": {
+      "value": 1,
+      "user": 5,
+      "idea": 6
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 30,
+    "fields": {
+      "value": 0,
+      "user": 5,
+      "idea": 5
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 31,
+    "fields": {
+      "value": -1,
+      "user": 5,
+      "idea": 9
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 32,
+    "fields": {
+      "value": 1,
+      "user": 6,
+      "idea": 2
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 33,
+    "fields": {
+      "value": 1,
+      "user": 6,
+      "idea": 1
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 34,
+    "fields": {
+      "value": 1,
+      "user": 6,
+      "idea": 10
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 35,
+    "fields": {
+      "value": 0,
+      "user": 6,
+      "idea": 6
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 36,
+    "fields": {
+      "value": 0,
+      "user": 6,
+      "idea": 4
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 37,
+    "fields": {
+      "value": -1,
+      "user": 1,
+      "idea": 9
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 38,
+    "fields": {
+      "value": 1,
+      "user": 1,
+      "idea": 10
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 39,
+    "fields": {
+      "value": 1,
+      "user": 1,
+      "idea": 6
+    }
+  },
+  {
+    "model": "base.vote",
+    "pk": 40,
+    "fields": {
+      "value": 1,
+      "user": 1,
+      "idea": 7
+    }
+  },
+  {
+    "model": "base.favorite",
+    "pk": 2,
+    "fields": {
+      "user": 4,
+      "idea": 1
+    }
+  },
+  {
+    "model": "base.favorite",
+    "pk": 3,
+    "fields": {
+      "user": 5,
+      "idea": 2
+    }
+  },
+  {
+    "model": "base.favorite",
+    "pk": 4,
+    "fields": {
+      "user": 1,
+      "idea": 1
+    }
+  }
+]

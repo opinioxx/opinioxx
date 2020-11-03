@@ -1,0 +1,82 @@
+{# form for new ideas #}
+{% extends "base/base.html" %}
+{% load static %}
+{% load template_tags %}
+
+{% block content %}
+    <div class="container-lg align-self-center">
+        {% if success %}
+            <div class="rounded-lg bg-secondary text-light text-center p-2 shadow-lg border border-success">
+                <h2 class="text-break">Dein Feedback wurde erfolgreich gespeichert!</h2>
+                <p class="text-break">Bitte beachte, dass es unter Umständen nicht öffentlich sichtbar ist, bis es eine
+                    Mindestanzahl an Stimmen erhalten hat.</p>
+                <div class="text-break">Zurück zur Übersicht in
+                    <div class="d-inline" id="time">3</div>
+                    Sekunden.
+                </div>
+                <br>
+                {% if request.session.compactview %}
+                    <a href="{% url 'base:projectcompact' project.id %}"
+                       class="align-self-center btn btn-info">
+                {% else %}
+                    <a href="{% url 'base:project' project.id %}" class="align-self-center btn btn-info">
+                {% endif %}
+                zurück zur Übersicht
+                </a>
+            </div>
+            <script>
+                window.setTimeout(function () {
+                    {% if request.session.compactview %}
+                        window.location.href = "{% url 'base:projectcompact' project.id %}";
+                    {% else %}
+                        window.location.href = "{% url 'base:project' project.id %}";
+                    {% endif %}
+                }, 3000);
+                setInterval(function () {
+                    var newTime = (parseInt(document.getElementById("time").innerHTML) - 1).toString();
+                    document.getElementById("time").innerHTML = newTime;
+                }, 1000);
+            </script>
+        {% else %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="bg-danger mb-5 text-center text-light rounded">
+                        <p class="m-2 p-1">{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="container-lg bg-dark rounded-lg d-flex flex-row align-items-stretch p-0 text-light
+                justify-content-center mb-2">
+                <h1 class="text-break">Neues Feedback eintragen</h1>
+            </div>
+            <div class="text-break container-lg bg-secondary rounded-lg d-flex flex-row align-items-stretch p-2
+                text-light justify-content-center mb-5 text-justify shadow-lg">
+                {{ new_feedback_text }}
+            </div>
+            <div class="container-lg bg-secondary rounded-lg d-flex flex-row align-items-stretch p-0 mt-3 shadow-lg">
+                <div class="rounded-left p-0 d-flex flex-column bg-dark"
+                     style="min-width: 50px; width: 50px;">
+                    <div class="flex-fill m-0 text-center row align-items-center">
+                        <h2 class="text-light m-0 flex-fill">0</h2>
+                    </div>
+                </div>
+                <div class="d-flex flex-column flex-fill">
+                    <form method="post" action="{% url 'base:newidea' project.id %}">
+                        {% csrf_token %}
+                        <h2 class="h2 align-self-stretch bg-dark m-0 p-2 text-light rounded-right text-break">
+                            {{ form.title }}
+                        </h2>
+                        <div class="p-2 text-light">
+                            {{ form.description }}
+                            {% voting_allowed project.id None as voting_allowed %}
+                            {% if voting_allowed %}
+                                {{ form.upvote.label_tag }} {{ form.upvote }}
+                            {% endif %}
+                            <button type="submit" class="btn btn-success btn-block mt-3">Speichern</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

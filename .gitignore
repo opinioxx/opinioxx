@@ -1,0 +1,8 @@
+/venv/
+/.idea/
+/src/static/
+/src/db.sqlite3
+__pycache__
+/docs/_build/
+/src/opinioxx/settings.py
+/src/opinioxx/plugins/

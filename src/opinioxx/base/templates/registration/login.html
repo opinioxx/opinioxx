@@ -1,0 +1,29 @@
+{# login form #}
+{% extends "base/../base/base.html" %}
+{% load template_tags %}
+
+{% block content %}
+    <div class="container align-self-center justify-content-center d-flex">
+        <div class="bg-secondary rounded-lg text-light text-center border border-dark shadow-lg">
+            <h1 class="bg-dark m-0 rounded-top">Login</h1>
+            <div class="m-3">
+                <form method="post" action="{% url 'base:login' %}" class="d-flex flex-column">
+                    {% csrf_token %}
+                    {{ form.username }}
+                    {{ form.password }}
+                    {% if form.errors %}
+                        <div class="bg-danger rounded mt-2 pl-1 pr-1">Benutzername oder Passwort falsch!</div>
+                    {% endif %}
+                    <input type="submit" value="Anmelden" class="btn btn-success mt-3">
+                </form>
+                <a class="btn btn-info btn-sm btn-block mt-4" href="{% url 'base:password_reset' %}">
+                    Passwort vergessen?</a>
+                {% allow_registration as allow_registration %}
+                {% if allow_registration %}
+                    <a class="btn btn-info btn-sm btn-block mt-1"
+                       href="{% url 'base:register' %}">Registrieren</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,191 @@
+{# detail page of one given idea #}
+{% extends "base/base.html" %}
+{% load template_tags %}
+{% load static %}
+
+{% block content %}
+    <div class="container-lg align-self-center">
+        {% if request.session.compactview %}
+            {% if archive %}
+                <a class="btn btn-outline-info" href="{% url 'base:archivecompact' project.id %}">
+            {% else %}
+                <a class="btn btn-outline-info" href="{% url 'base:projectcompact' project.id %}">
+            {% endif %}
+        {% else %}
+            {% if archive %}
+                <a class="btn btn-outline-info" href="{% url 'base:archive' project.id %}">
+            {% else %}
+                <a class="btn btn-outline-info" href="{% url 'base:project' project.id %}">
+            {% endif %}
+        {% endif %}
+        ← zurück zur Übersicht
+        </a>
+        {% include 'base/idea.html' with idea=idea %}
+        <div class="mt-4">
+            {% for comment in comments %}
+                <div class="{% if comment.author in admins or comment.author.is_superuser %}
+                speech-bubble-info{% else %}speech-bubble{% endif %} mt-4 d-flex flex-row align-items-center">
+                    {% if comment.category == comment.ACCEPT %}
+                        <img src="{% static 'base/icon_check.png' %}" class="p-1" style="width: 30px; height: 30px;"
+                             data-toggle="tooltip"
+                             data-placement="left"
+                             title="Dieser Kommentar hat das Feedback als erfolgreich umgesetzt markiert.">
+                    {% elif comment.category == comment.CLOSE %}
+                        <img src="{% static 'base/icon_cross.png' %}" class="p-1" style="width: 30px; height: 30px;"
+                             data-toggle="tooltip"
+                             data-placement="left"
+                             title="Dieser Kommentar hat das Feedback als abgelehnt markiert.">
+                    {% elif comment.category == comment.REOPEN %}
+                        <img src="{% static 'base/icon_refresh.png' %}" class="p-1" style="width: 30px; height: 30px;"
+                             data-toggle="tooltip"
+                             data-placement="left"
+                             title="Dieser Kommentar hat das Feedback erneut geöffnet.">
+                    {% else %}
+                        <div class="p-2"></div>
+                    {% endif %}
+                    <p class="pt-3 pb-3 pr-3 pl-1 m-0 text-light text-break" style="min-width: 0px;">
+                        {{ comment.content | linebreaksbr }}
+                    </p>
+                </div>
+                <div class="author text-dark pt-1">
+                    {% if comment.author == None %}
+                        Anonymous,
+                    {% else %}
+                        {% signal 'opinioxx.base.signals.display_user_icon' first=True project=project author=comment.author %}
+                        {{ comment.author }},
+                    {% endif %}
+                    {{ comment.date | date:'d.m.Y' }}
+                </div>
+            {% endfor %}
+            {% if not request.user.is_anonymous or project.public_visible and project.public_comments %}
+                <form method="post"
+                      class="form {% if author == 'Anonymous' %}speech-bubble{% else %}speech-bubble-info{% endif %}
+                      mt-4">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        <div class="rounded-top bg-warning text-dark ">
+                            {% for field,error in form.errors.items %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="p-2">{{ form.content }}</div>
+                    <div class="d-flex flex-row">
+                        <div class="flex-fill mb-2">
+                            {% if special_rights %}
+                                <div class="col-6">
+                                    {{ form.archive }}
+                                </div>
+                            {% endif %}
+                            {% if not request.user.is_anonymous %}
+                                <div class="ml-3 text-light">
+                                    {{ form.anonymous }} {{ form.anonymous.label }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex flex-column">
+                            <div class="flex-fill"></div>
+                            <input type="submit" value="Kommentar speichern"
+                                   class="btn btn-success mb-2 mr-2 align-bottom">
+                        </div>
+                    </div>
+                </form>
+                <div class="author"><p id="author_name" class="d-inline">{{ author }}</p>, {% now 'd.m.Y' %}</div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+        $(document).ready(function () {
+            var anonym = document.getElementById('id_anonymous');
+            var author_name = document.getElementById('author_name');
+            if ($(anonym).is(':checked') || !$(anonym).length) {
+                author_name.innerText = 'Anonymous';
+            } else {
+                author_name.innerText = '{{ request.user }}';
+            }
+        })
+        var anonym = document.getElementById('id_anonymous');
+        anonym.addEventListener('click', function () {
+            var author_name = document.getElementById('author_name');
+            if (this.checked) {
+                author_name.innerText = 'Anonymous';
+                {% if special_rights %}
+                    document.getElementById('id_archive').disabled = true;
+                    $("form.speech-bubble-info").removeClass('speech-bubble-info').addClass('speech-bubble');
+                {% endif %}
+            } else {
+                author_name.innerText = '{{ request.user }}';
+                {% if special_rights %}
+                    document.getElementById('id_archive').disabled = false;
+                    $("form.speech-bubble").removeClass('speech-bubble').addClass('speech-bubble-info');
+                {% endif %}
+            }
+        });
+
+        function send_ajax(action, id) {
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'base:vote' project.id %}',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                data: {'action': action, 'idea': id},
+                dataType: 'json'
+            }).done(function (data) {
+                if ("error" in data) {
+                    alert(data["error"]);
+                    location.reload();
+                }
+                $("#rating" + data['idea']).html(data['rating_sum']);
+                if (data['rating_sum'] > 0) {
+                    $("#background" + data['idea'])
+                        .addClass("bg-success positive")
+                        .removeClass("bg-danger negative bg-dark text-light");
+                } else if (data['rating_sum'] === 0) {
+                    $("#background" + data['idea'])
+                        .addClass("bg-dark text-light")
+                        .removeClass("bg-danger negative bg-success positive");
+                } else if (data['rating_sum'] < 0) {
+                    $("#background" + data['idea'])
+                        .addClass("bg-danger negative")
+                        .removeClass("bg-success positive bg-dark text-light");
+                }
+                if (data['star'] === true) {
+                    $("#star" + data['idea'])
+                        .attr('src', '{% static 'base/icon_star_filled.png' %}')
+                        .attr('title', 'Du hast dieses Feedback als Favorit markiert und ihm damit eine zusätzliche ' +
+                            'Stimme gegeben. Klicke hier, um dies rückgängig zu machen.')
+                        .attr('data-original-title', 'Du hast dieses Feedback als Favorit markiert und ihm damit ' +
+                            'eine zusätzliche Stimme gegeben. Klicke hier, um dies rückgängig zu machen.');
+                    if (data['stars_available'] === false) {
+                        $("img[src='{% static 'base/icon_star.png' %}']").css('display', 'none');
+                    }
+                } else {
+                    $("#star" + data['idea'])
+                        .attr('src', '{% static 'base/icon_star.png' %}')
+                        .attr('title', 'Du kannst insgesamt {{ project.stars_count }} Vorschläge als Favoriten ' +
+                            'festlegen. Diese bekommen dadurch eine zusätzliche Stimme.')
+                        .attr('data-original-title', 'Du kannst insgesamt {{ project.stars_count }} Vorschläge als ' +
+                            'Favoriten festlegen. Diese bekommen dadurch eine zusätzliche Stimme.');
+                    if (data['stars_available'] === true) {
+                        $("img[src='{% static 'base/icon_star.png' %}']").css('display', 'block');
+                    }
+                }
+            })
+        }
+
+        $(".upvote").click(function () {
+            send_ajax('up', this.id);
+        });
+        $(".neutralvote").click(function () {
+            send_ajax('neutral', this.id);
+        });
+        $(".downvote").click(function () {
+            send_ajax('down', this.id);
+        });
+        $(".starvote").click(function () {
+            send_ajax('star', this.id);
+        });
+    </script>
+{% endblock %}

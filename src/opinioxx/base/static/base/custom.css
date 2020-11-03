@@ -1,0 +1,110 @@
+main {
+    padding-top: 65px;
+    padding-bottom: 40px;
+}
+
+.arrow-up, .idea-description > a[aria-expanded="true"] > .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(-135deg);
+}
+
+.arrow-down, .idea-description > a[aria-expanded="false"] > .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+}
+
+.form-group.required .control-label:after {
+    content: "*";
+}
+
+.speech-bubble {
+    position: relative;
+    background: #6c757d;
+    border-radius: .4em;
+}
+
+.speech-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 0;
+    height: 0;
+    border: 25px solid transparent;
+    border-top-color: #6c757d;
+    border-bottom: 0;
+    border-right: 0;
+    margin-left: -14px;
+    margin-bottom: -25px;
+}
+
+.speech-bubble-info {
+    position: relative;
+    background: #17a2b8;
+    border-radius: .4em;
+}
+
+.speech-bubble-info:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 0;
+    height: 0;
+    border: 25px solid transparent;
+    border-top-color: #17a2b8;
+    border-bottom: 0;
+    border-right: 0;
+    margin-left: -14px;
+    margin-bottom: -25px;
+}
+
+.author {
+    position: relative;
+    left: 10%;
+    margin-left: 24px;
+    font-style: italic;
+}
+
+.positive button.btn-outline-success:hover {
+    background: #28da45;
+}
+
+.negative button.btn-outline-danger:hover {
+    background: #ff3545;
+}
+
+.tab {
+    background: #1d2124 !important;
+    border: 0 !important;
+}
+
+.tab.active {
+    background: #343a40 !important;
+}
+
+.idea-description > a {
+    visibility: hidden;
+}
+
+.idea-description > .collapse:not(.show) {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    height: 40px !important;
+}
+
+.idea-description > .collapsing {
+    min-height: 40px !important;
+}
+
+.idea-description > .btn:focus {
+    box-shadow: none;
+}

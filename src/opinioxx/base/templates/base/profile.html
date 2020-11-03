@@ -1,0 +1,79 @@
+{# profile page of a user #}
+{% extends "base/base.html" %}
+{% load static %}
+{% load template_tags %}
+
+{% block content %}
+    <div class="container align-self-center justify-content-center d-flex flex-column">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{% if message.tags == 'success' %}bg-success{% else %}bg-danger{% endif %}
+                    mb-5 text-center text-light rounded">
+                    <p class="m-2">{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="bg-secondary rounded-lg text-light text-center border border-dark shadow-lg">
+            <h1 class="bg-dark m-0 rounded-top">Profil</h1>
+            <div class="p-3 bg-secondary">
+                <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
+                    <li class="nav-item bg-dark rounded-top">
+                        <a class="nav-link text-light tab{% if tab == 'password' %} active{% endif %}"
+                           id="changepassword-tab" data-toggle="tab"
+                           href="#password" role="tab"
+                           aria-controls="changepassword" aria-selected="true">Passwort ändern</a>
+                    </li>
+                    <li class="nav-item bg-dark rounded-top">
+                        <a class="nav-link text-light tab{% if tab == 'email' %} active{% endif %}" id="profile-tab"
+                           data-toggle="tab" href="#email"
+                           role="tab"
+                           aria-controls="profile" aria-selected="false">E-Mail-Benachrichtigungen</a>
+                    </li>
+                </ul>
+                <div class="tab-content border border-dark shadow shadow-lg rounded-bottom bg-dark p-3"
+                     id="myTabContent">
+                    <div class="tab-pane fade{% if tab == 'password' %} active show {% endif %}" id="password"
+                         role="tabpanel"
+                         aria-labelledby="changepassword-tab">
+                        <br>
+                        <form method="post" action="{% url 'base:profile_changepassword' %}">
+                            {% csrf_token %}
+                            {{ form_passwordchange }}
+                            <button class="btn btn-success" type="submit">Passwort speichern</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade {% if tab == 'email' %} active show {% endif %}" id="email"
+                         role="tabpanel" aria-labelledby="profile-tab">
+                        <p>Hier kannst Du deine E-Mail-Benachrichtigungen verwalten. Bitte wähle zuerst aus, für welche
+                            Projekte Du Benachrichtigungen erhalten möchtest. Für alle ausgewählten Projekte wirst du
+                            per E-Mail über die unten ausgewählten Ereignisse informiert. Wenn Du kein Projekt
+                            oder keine Ereignisse auswählst, bekommst Du keine E-Mails.</p>
+                        <form method="post" action="{% url 'base:profile_emailsettings' %}">
+                            {% csrf_token %}
+                            {{ form_emailsettings.notifiable_projects }}
+                            <div class="form-check">
+                                {{ form_emailsettings.add_new_projects_to_notify_list.label_tag }}
+                                {{ form_emailsettings.add_new_projects_to_notify_list }}
+                            </div>
+                            {{ form_emailsettings.notify_interval }}
+                            <div class="form-check">
+                                {{ form_emailsettings.notify_new_feedback.label_tag }}
+                                {{ form_emailsettings.notify_new_feedback }}
+                            </div>
+                            <div class="form-check">
+                                {{ form_emailsettings.notify_state_changed.label_tag }}
+                                {{ form_emailsettings.notify_state_changed }}
+                            </div>
+                            <div class="form-check">
+                                {{ form_emailsettings.notify_comments.label_tag }}
+                                {{ form_emailsettings.notify_comments }}
+                            </div>
+                            <br>
+                            <button class="btn btn-success" type="submit">Einstellungen speichern</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

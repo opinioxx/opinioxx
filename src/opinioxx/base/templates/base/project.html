@@ -1,0 +1,176 @@
+{# renders one profile with all ideas #}
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container-lg align-self-center">
+        {% if not ideas %}
+            <div class="bg-secondary shadow-lg rounded-lg d-flex flex-column mb-3">
+                <div class="d-flex flex-row rounded-top bg-dark">
+                    <h2 class="h2 m-0 p-2 text-light text-break flex-fill">Kein Feedback gefunden</h2>
+                </div>
+                <div class="d-flex flex-column">
+                    <p class="text-light pt-2 pl-2 pr-2 flex-fill text-break mb-0 pb-0">
+                        Aktuell existiert kein Feedback, welches dir angezeigt werden könnte. Dies könnte daran liegen,
+                        dass schlicht kein Feedback existiert oder du nicht berechtigt bist, es einzusehen. Bitte
+                        kontaktiere einen Projektadministrator, um Zugriff auf dieses Projekt zu erhalten oder erstelle
+                        neues Feedback.
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+        {% if not archive %}
+            <a class="btn btn-success btn-block" href="{% url 'base:newidea' project.id %}">
+                + Neues Feedback eintragen +
+            </a>
+        {% endif %}
+        <div>
+            {% for idea in ideas %}
+                {% if compact %}
+                    {% include 'base/ideacompact.html' with idea=idea %}
+                {% else %}
+                    {% include 'base/idea.html' with idea=idea %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function send_ajax(action, id) {
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'base:vote' project.id %}',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                data: {'action': action, 'idea': id},
+                dataType: 'json'
+            }).done(function (data) {
+                    if ("error" in data) {
+                        alert(data["error"]);
+                        location.reload();
+                    }
+                    $("#participation" + data['idea']).html(data['participations']);
+                    $("#stars" + data['idea']).html(data['stars']);
+                    const rating_obj = $("#rating" + data['idea']);
+                    const old_rating = rating_obj.html();
+                    rating_obj.html(data['rating_sum']);
+                    if (data['rating_sum'] > 0) {
+                        $("#background" + data['idea'])
+                            .addClass("bg-success positive")
+                            .removeClass("bg-danger negative bg-dark text-light");
+                    } else if (data['rating_sum'] === 0) {
+                        $("#background" + data['idea'])
+                            .addClass("bg-dark text-light")
+                            .removeClass("bg-danger negative bg-success positive");
+                    } else if (data['rating_sum'] < 0) {
+                        $("#background" + data['idea'])
+                            .addClass("bg-danger negative")
+                            .removeClass("bg-success positive bg-dark text-light");
+                    }
+                    if (data['star'] === true) {
+                        $("#star" + data['idea'])
+                            .attr('src', '{% static 'base/icon_star_filled.png' %}')
+                            .attr('title', 'Du hast dieses Feedback als Favorit markiert und ihm damit eine ' +
+                                'zusätzliche Stimme gegeben. Klicke hier, um dies rückgängig zu machen.')
+                            .attr('data-original-title', 'Du hast dieses Feedback als Favorit markiert und ihm damit ' +
+                                'eine zusätzliche Stimme gegeben. Klicke hier, um dies rückgängig zu machen.');
+                        if (data['stars_available'] === false) {
+                            $("img[src='{% static 'base/icon_star.png' %}']").css('display', 'none');
+                        }
+                    } else {
+                        $("#star" + data['idea'])
+                            .attr('src', '{% static 'base/icon_star.png' %}')
+                            .attr('title', 'Du kannst insgesamt {{ project.stars_count }} Vorschläge als Favoriten ' +
+                                'festlegen. Diese bekommen dadurch eine zusätzliche Stimme.')
+                            .attr('data-original-title', 'Du kannst insgesamt {{ project.stars_count }} Vorschläge ' +
+                                'als Favoriten festlegen. Diese bekommen dadurch eine zusätzliche Stimme.');
+                        if (data['stars_available'] === true) {
+                            $("img[src='{% static 'base/icon_star.png' %}']").css('display', 'block');
+                        }
+                    }
+                    const animation_duration = 400;
+                    const idea_obj = $("#idea" + data["idea"]);
+                    if (old_rating < data["rating_sum"]) {
+                        let prev_id = idea_obj.prev().attr("id").substring(4);
+                        let prev_rating = $("#rating" + prev_id).html();
+                        let elements_height = 0;
+                        let last_moved_element;
+                        while (prev_rating >= old_rating && prev_rating < data["rating_sum"]) {
+                            last_moved_element = $("#idea" + prev_id)
+                            elements_height += last_moved_element.outerHeight(true);
+                            last_moved_element.animate(
+                                {"top": "+=" + $("#idea" + data["idea"]).outerHeight(true)},
+                                animation_duration,
+                                function () {
+                                    $(this).css("top", 0);
+                                });
+                            if (last_moved_element.prev().length) {
+                                prev_id = last_moved_element.prev().attr("id").substring(4);
+                                prev_rating = $("#rating" + prev_id).html();
+                            } else {
+                                break;
+                            }
+                        }
+                        idea_obj.animate({"top": "-=" + elements_height}, animation_duration, function () {
+                            $(this).css("top", 0);
+                            $(last_moved_element).before($(this));
+                        });
+                    }
+                    if (old_rating > data["rating_sum"]) {
+                        let next_id = idea_obj.next().attr("id").substring(4);
+                        let next_rating = $("#rating" + next_id).html();
+                        let elements_height = 0;
+                        let last_moved_element;
+                        while (next_rating <= old_rating && next_rating > data["rating_sum"]) {
+                            last_moved_element = $("#idea" + next_id);
+                            elements_height += last_moved_element.outerHeight(true);
+                            last_moved_element.animate(
+                                {"top": "-=" + $("#idea" + data["idea"]).outerHeight(true)},
+                                animation_duration, function () {
+                                    $(this).css("top", 0);
+                                });
+                            if (last_moved_element.next().length) {
+                                next_id = last_moved_element.next().attr("id").substring(4);
+                                next_rating = $("#rating" + next_id).html();
+                            } else {
+                                break;
+                            }
+                        }
+                        idea_obj.animate({"top": "+=" + elements_height}, animation_duration, function () {
+                            $(this).css("top", 0);
+                            $(last_moved_element).after($(this));
+                        });
+                    }
+                    $(".tooltip").tooltip("hide");
+                    $("#idea" + data["idea"] + " .badge-danger").css("display", "none");
+                    if (data["voting_allowed"] === false) {
+                        $("#background" + data["idea"] + " > div > .upvote")
+                            .replaceWith('<div style="min-width: 33px;"></div>');
+                        $("#background" + data["idea"] + " > div > .downvote")
+                            .replaceWith('<div style="min-width: 33px;"></div>');
+                        $("#background" + data["idea"] + " > div > .neutralvote")
+                            .attr("disabled", true)
+                            .attr("title", "")
+                            .attr("data-original-title", "")
+                            .css("opacity", 1);
+                    }
+                }
+            )
+        }
+
+        $(".upvote").click(function () {
+            send_ajax('up', this.id);
+        });
+        $(".neutralvote").click(function () {
+            send_ajax('neutral', this.id);
+        });
+        $(".downvote").click(function () {
+            send_ajax('down', this.id);
+        });
+        $(".starvote").click(function () {
+            send_ajax('star', this.id);
+        });
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
+{% endblock %}

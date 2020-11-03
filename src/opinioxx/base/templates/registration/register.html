@@ -1,0 +1,42 @@
+{# form to register a new user #}
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container align-self-center justify-content-center row">
+        <div class="bg-secondary rounded-lg text-light border border-dark shadow-lg col-lg-7 p-0
+            justify-content-center">
+            <h1 class="bg-dark m-0 rounded-top mb-2 text-center">Registrierung</h1>
+            <form method="post" action="{% url 'base:register' %}" class="m-3 form-horizontal">
+                {% csrf_token %}
+                {% for element in form %}
+                    <div class="form-group row no-gutters {% if element.field.required %}required{% endif %}">
+                        <label class="col-form-label col-lg-4 control-label">{{ element.label_tag }}</label>
+                        <div class="col-lg-6">{{ element }}
+                            {% if element.errors %}
+                                <div class="alert alert-warning small p-1">
+                                    {{ element.errors | striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-2">
+                            {% if element.help_text %}
+                                <img src="{% static 'base/icon_help.png' %}" data-toggle="tooltip"
+                                     class="ml-2"
+                                     style="width: 24px" data-placement="right"
+                                     title="{{ element.help_text }}">
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <input type="submit" value="Registrieren" class="btn btn-block btn-success">
+            </form>
+        </div>
+    </div>
+    </div>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+{% endblock %}

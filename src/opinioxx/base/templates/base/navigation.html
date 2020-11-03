@@ -1,0 +1,122 @@
+{# renders the navigation bar #}
+{% load static %}
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <a class="navbar-brand" href="{% url 'base:index' %}">{{ site_title }}</a>
+        <ul class="navbar-nav mr-auto">
+            {% if projects %}
+                <li class="nav-item text-center">
+                    <div class="btn-group">
+                        <a href="{% url 'base:index' %}" class="btn nav-link bg-dark">Projekte</a>
+                        <button type="button" class="btn nav-link dropdown-toggle dropdown-toggle-split bg-dark"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Project-Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu bg-dark">
+                            {% for project in projects %}
+                                {% if request.session.compactview %}
+                                    <a class="dropdown-item text-light bg-dark"
+                                       href="{% url 'base:projectcompact' project.id %}">
+                                        {{ project.name }}
+                                    </a>
+                                {% else %}
+                                    <a class="dropdown-item text-light bg-dark"
+                                       href="{% url 'base:project' project.id %}">{{ project.name }}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </li>
+            {% endif %}
+            {% if project %}
+                <li class="nav-item text-center">
+                    <div class="btn-group">
+                        {% if request.session.compactview %}
+                            <a href="{% url 'base:projectcompact' project.id %}"
+                               class="btn nav-link bg-dark">
+                        {% else %}
+                            <a href="{% url 'base:project' project.id %}" class="btn nav-link bg-dark">
+                        {% endif %}
+                        Feedback-Übersicht
+                        </a>
+                        <button type="button" class="btn nav-link dropdown-toggle dropdown-toggle-split bg-dark"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Feedback-Overview-Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu bg-dark">
+                            <a class="dropdown-item text-light bg-dark"
+                               href="{% url 'base:newidea' project.id %}">Feedback eintragen</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    {% if request.session.compactview %}
+                        <a class="nav-link btn bg-dark {% if request.path == url %}active{% endif %}"
+                           href="{% url 'base:archivecompact' project.id %}">Feedback-Archiv</a>
+                    {% else %}
+                        <a class="nav-link btn bg-dark {% if request.path == url %}active{% endif %}"
+                           href="{% url 'base:archive' project.id %}">Feedback-Archiv</a>
+                    {% endif %}
+                </li>
+            {% endif %}
+        </ul>
+        {% if project %}
+            {% if view == 'project' %}
+                {% if compact %}
+                    {% if archive %}
+                        <a type="button" class="btn btn-info btn-sm mr-5" data-toggle="button" aria-pressed="true"
+                           href="{% url 'base:archive' project.id %}">
+                            Kompaktansicht
+                        </a>
+                    {% else %}
+                        <a type="button" class="btn btn-info btn-sm mr-5" data-toggle="button" aria-pressed="true"
+                           href="{% url 'base:project' project.id %}">
+                            Kompaktansicht
+                        </a>
+                    {% endif %}
+                {% else %}
+                    {% if archive %}
+                        <a type="button" class="btn btn-secondary btn-sm mr-5" data-toggle="button" aria-pressed="false"
+                           href="{% url 'base:archivecompact' project.id %}">
+                            Kompaktansicht
+                        </a>
+                    {% else %}
+                        <a type="button" class="btn btn-secondary btn-sm mr-5" data-toggle="button" aria-pressed="false"
+                           href="{% url 'base:projectcompact' project.id %}">
+                            Kompaktansicht
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle bg-dark btn" href="" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right bg-dark" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item text-light bg-dark"
+                           href="{% url 'base:profile' %}">
+                            Profil
+                        </a>
+                        <a class="dropdown-item text-light bg-dark"
+                           href="{% url 'logout' %}">
+                            Logout
+                        </a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'base:login' %}">Login</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

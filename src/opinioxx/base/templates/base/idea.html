@@ -1,0 +1,178 @@
+{# renders one given idea #}
+{% load static %}
+{% load template_tags %}
+
+<div class="container-lg bg-secondary shadow-lg rounded-lg d-flex flex-row align-items-stretch p-0 mt-3
+    position-relative" id="idea{{ idea.id }}">
+    {% voting_allowed project.id idea.id as voting_allowed %}
+    {% if not idea.is_active %}
+        {% if idea.state == idea.SUCCESS %}
+            <div class="rounded-left p-0 bg-success d-flex align-items-center"
+                 style="min-width: 50px; width: 50px;">
+                <img src="{% static 'base/icon_check.png' %}" class="p-1" style="width: 50px;" data-toggle="tooltip"
+                     data-placement="left"
+                     title="Dieser Vorschlag wurde mit {{ idea.get_vote_value }} Stimme(n) unterstützt und erfolgreich
+                         umgesetzt.">
+            </div>
+        {% else %}
+            <div class="rounded-left p-0 bg-danger d-flex align-items-center" style="min-width: 50px; width: 50px;">
+                <img src="{% static 'base/icon_cross.png' %}" class="p-1" style="width: 50px;" data-toggle="tooltip"
+                     data-placement="left"
+                     title="Dieser Vorschlag wurde mit {{ idea.get_vote_value }} Stimme(n) unterstützt und abgelehnt.">
+            </div>
+        {% endif %}
+    {% else %}
+        <div id="background{{ idea.id }}" class="rounded-left p-0 d-flex flex-column {{ idea.get_css }}"
+             style="min-width: 50px;">
+            {% if voting_allowed %}
+                <div class="d-flex flex-column justify-content-between flex-fill">
+                    <button id="{{ idea.id }}" type="button"
+                            class="btn btn-outline-success btn-block border-0 m-0 upvote" data-toggle="tooltip"
+                            data-placement="left"
+                            title="Mit diesem Button unterstützt du dieses Feedback und gibst ihm deine Stimme.">
+                        <i class="arrow-up"></i>
+                    </button>
+                    <button type="button" id="{{ idea.id }}"
+                            class="btn btn-outline-secondary btn-block border-0 flex-fill m-0 pl-1 pr-1 pt-0 pb-0
+                                neutralvote"
+                            data-toggle="tooltip"
+                            data-placement="left"
+                            title="Mit diesem Button drückst du aus, dass du neutral zu diesem Feedback stehst. Das
+                                    Feedback erhält keine Stimme und wird dir zukünftig nicht mehr als neu angezeigt.">
+                        <h2 class="text-light m-0" id="rating{{ idea.id }}">{{ idea.get_vote_value }}</h2>
+                    </button>
+                    <button type="button" class="btn btn-outline-danger btn-block border-0 m-0 downvote"
+                            data-toggle="tooltip" id="{{ idea.id }}"
+                            data-placement="left"
+                            title="Mit diesem Button stimmst du gegen dieses Feedback und ihm wird eine Stimme
+                                    abgezogen.">
+                        <i class="arrow-down"></i>
+                    </button>
+                </div>
+            {% else %}
+                <div class="flex-fill m-0 text-center row align-items-center">
+                    <h2 class="text-light m-0 flex-fill" id="rating{{ idea.id }}">{{ idea.get_vote_value }}</h2>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+    <div class="d-flex flex-column flex-fill">
+        <div class="d-flex bg-dark rounded-right">
+            {% has_rating_from_user idea.id request.user.id as rating_exists %}
+            {% if not rating_exists and voting_allowed and not archive %}
+                <div class="h2 flex-grow-1 mt-1 ml-2">
+                        <span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Dieses
+                            Feedback wird dir als neu angezeigt, weil du hierfür noch nicht abgestimmt hast. Benutze
+                            zum Abstimmen die Buttons links.">
+                            Neu
+                        </span>
+                    <a href="{% url 'base:idea' project.id idea.id %}"
+                       class=" m-0 text-light text-break">
+                        {{ idea.title }}
+                    </a>
+                </div>
+            {% else %}
+                <a href="{% url 'base:idea' project.id idea.id %}"
+                   class="h2 flex-grow-1 m-0 p-2 text-light text-break">{{ idea.title }}</a>
+            {% endif %}
+            {% has_star_from_user idea.id request.user.id as star_exists %}
+            {% get_free_starcount request.user.id project.id as free_stars %}
+            {% if voting_allowed and star_exists and not archive %}
+                <button type="button" id="{{ idea.id }}" class="starvote btn border-0 m-0 p-0 d-flex">
+                    <img id="star{{ idea.id }}" src="{% static 'base/icon_star_filled.png' %}" class="p-2 align-top"
+                         style="height: 40px;"
+                         data-toggle="tooltip" data-placement="bottom" title="Du hast dieses Feedback als Favorit
+                             markiert und ihm damit eine zusätzliche Stimme gegeben. Klicke hier, um dies rückgängig zu
+                             machen.">
+                </button>
+            {% elif voting_allowed and free_stars > 0 and not archive %}
+                <button type="button" id="{{ idea.id }}" class="starvote btn border-0 m-0 p-0 d-flex">
+                    <img id="star{{ idea.id }}" src="{% static 'base/icon_star.png' %}" class="p-2 align-top"
+                         style="height: 40px;"
+                         data-toggle="tooltip" data-placement="bottom" title="Du kannst insgesamt
+                                {{ project.max_favorites }} Vorschläge als Favoriten festlegen. Diese bekommen dadurch
+                                eine zusätzliche Stimme.">
+                </button>
+            {% else %}
+                <button type="button" id="{{ idea.id }}" class="starvote btn border-0 m-0 p-0 d-flex">
+                    <img id="star{{ idea.id }}" src="{% static 'base/icon_star.png' %}" class="p-2 align-top"
+                         style="height: 40px; display: none;"
+                         data-toggle="tooltip" data-placement="bottom" title="Du kannst insgesamt
+                                {{ project.max_favorites }} Vorschläge als Favoriten festlegen. Diese bekommen dadurch
+                                eine zusätzliche Stimme.">
+                </button>
+            {% endif %}
+            {% if not view == 'detail' %}
+                {% if idea.comment_set.exists %}
+                    <a href="{% url 'base:idea' project.id idea.id %}">
+                        <img name="speechbubble"
+                             src="{% static 'base/icon_speechbubble_filled.png' %}"
+                             class="p-2"
+                             style="height: 40px;"
+                             data-toggle="tooltip"
+                             data-placement="bottom"
+                             title="Öffnet Detailansicht für Kommentare"/>
+                        </img>
+                    </a>
+                {% else %}
+                    <a href="{% url 'base:idea' project.id idea.id %}">
+                        <img name="speechbubble"
+                             src="{% static 'base/icon_speechbubble.png' %}"
+                             class="p-2"
+                             style="height: 40px;"
+                             data-toggle="tooltip"
+                             data-placement="bottom"
+                             title="Öffnet Detailansicht für Kommentare"/>
+                        </img>
+                    </a>
+                {% endif %}
+            {% endif %}
+            {% signal 'opinioxx.base.signals.display_idea_icons' idea=idea view=view %}
+        </div>
+        <div class="d-flex flex-row idea-description">
+            {% if view == 'detail' %}
+                <div class="p-2 text-break text-light flex-fill">
+                    {{ idea.description }}
+                </div>
+            {% else %}
+                <div class="p-2 text-break text-light collapse flex-fill" data-target="#description{{ idea.id }}"
+                     aria-expanded="false" id="description{{ idea.id }}" style="width: 1px;">
+                    {{ idea.description }}
+                </div>
+                <a class="btn collapse-toggle" type="button" data-toggle="collapse"
+                   data-target="#description{{ idea.id }}" aria-expanded="false"
+                   aria-controls="description{{ idea.id }}" href="#">
+                    <div class="arrow"></div>
+                </a>
+            {% endif %}
+        </div>
+        <div class="bg-secondary rounded-right text-right small text-light pr-2 font-italic">
+            {% if not project.public_voting %}
+                #Beteiligungen: <p id="participation{{ idea.id }}" class="d-inline" style="">{{ idea.get_vote_count }}</p>,
+            {% endif %}
+            {% if project.public_voting and not user.is_anonymous or not project.public_voting %}
+                #Favoriten: <p id="stars{{ idea.id }}" class="d-inline">{{ idea.get_star_count }}</p>,
+            {% endif %}
+            <a class="text-light" href="{% url 'base:idea' project.id idea.id %}">
+                #Kommentare:
+                {% has_new_comments idea.id user.id as new %}
+                <p class="d-inline{% if new %} badge-pill badge-info pl-1 pr-1{% endif %}">
+                    {{ idea.get_comment_count }}</p></a>,
+            eingereicht: {{ idea.date | date:'d.m.Y' }}
+        </div>
+    </div>
+    <script>
+        if ($('#description{{ idea.id }}')[0].scrollWidth > $('#description{{ idea.id }}').innerWidth()) {
+            $('#description{{ idea.id }}').siblings().css('visibility', 'visible');
+        }
+        $(window).resize(function () {
+            if ($('#description{{ idea.id }}')[0].scrollWidth > $('#description{{ idea.id }}').innerWidth()) {
+                $('#description{{ idea.id }}').siblings().css('visibility', 'visible');
+            } else {
+                if (!$('#description{{ idea.id }}').hasClass('show')) {
+                    $('#description{{ idea.id }}').siblings().css('visibility', 'hidden');
+                }
+            }
+        });
+    </script>
+</div>

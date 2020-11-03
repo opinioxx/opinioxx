@@ -1,0 +1,33 @@
+{# main base template that defines the overall structure of each page #}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="de" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <title>{{ site_title }}</title>
+    <meta name="description" content="Simple website to get feedback from employees or teams">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'base/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'base/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'base/bootstrap-select.min.css' %}">
+    <script src="{% static 'base/jquery.min.js' %}"></script>
+    <script src="{% static 'base/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'base/bootstrap-select.min.js' %}"></script>
+</head>
+<body class="pt-40 h-100 d-flex flex-column" style="background: #050C1C url({% static 'base/cubes.jpg' %}) no-repeat fixed center left;">
+<header>
+    {% include 'base/navigation.html' %}
+</header>
+<main class="d-flex flex-fill justify-content-center">
+    {% block content %}
+    {% endblock %}
+</main>
+<footer class="footer bg-dark small text-light d-flex flex-row justify-content-between">
+    <p style="width: 60px;"></p>
+    <p class="mt-1 mb-1">powered by <a href="https://opinioxx.de">opinioxx</a></p>
+    <p class="mt-1 mb-1 mr-1" style="width: 60px;">v{{ version }}</p>
+</footer>
+</body>
+</html>
+
