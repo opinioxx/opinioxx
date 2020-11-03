@@ -30,13 +30,6 @@ Visit https://demo.opinioxx.de to see a live demo of the software. Use the follo
 * Choose between publicly available projects or closed ones only for your team
 * Use E-mail notifications to get informed about newly added feedback, state changes or new comments
 
-### Premium Version
-
-* All Features of the free version included
-* Assign users as managers to a project
-* Managers see feedback only if a certain amount of votes is reached (customizeable per project)
-* Managers cannot vote but instead comment on feedback and mark items as realized - or rejected
-
 ## Documentation
 
 See https://opinioxx.readthedocs.io
