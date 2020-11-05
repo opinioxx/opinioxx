@@ -19,8 +19,6 @@ Visit https://demo.opinioxx.de to see a live demo of the software. Use the follo
 
 ## Features
 
-### Free Version
-
 * Submit anonymously feedback or suggestions for improvement
 * Vote for the feedback
 * Mark feedback as favorites to give it an additional boost 
