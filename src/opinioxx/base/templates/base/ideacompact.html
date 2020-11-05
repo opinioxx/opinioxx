@@ -128,33 +128,7 @@
                     </a>
                 {% endif %}
             {% endif %}
-            <div>
-                {% if project.public_voting %}
-                    <img src="{% static 'base/icon_eye.png' %}" class="p-2" style="height: 40px;"
-                         data-toggle="tooltip"
-                         data-placement="right" name="visibility"
-                         title="Dieses Feedback ist öffentlich sichtbar, weil für dieses Projekt das öffentliche
-                                Abstimmen erlaubt ist. Diese Einstellung kann von einem Projekt-Administrator angepasst
-                                werden."/>
-                {% elif idea.is_public_visible %}
-                    <img src="{% static 'base/icon_eye.png' %}" class="p-2" style="height: 40px;"
-                         data-toggle="tooltip"
-                         data-placement="right"
-                         title="Dieses Feedback ist öffentlich sichtbar, weil es bereits mindestens
-                            {{ project.count_for_success }} Stimme(n) erhalten hat. Dieser Wert kann von
-                            Administratoren konfiguriert werden und sorgt dafür, dass Feedback erst sichtbar wird,
-                            wenn es von einem bestimmten Anteil des Teams mitgetragen wird."/>
-                {% else %}
-                    <img src="{% static 'base/icon_noeye.png' %}" class="p-2" style="height: 40px;"
-                         data-toggle="tooltip"
-                         data-placement="right"
-                         title="Dieses Feedback ist nicht öffentlich sichtbar, weil es noch nicht
-                            {{ project.count_for_success }} Stimme(n) erhalten hat. Dieser Wert kann von
-                            Administratoren konfiguriert werden und sorgt dafür, dass Feedback erst sichtbar wird, wenn
-                            es von einem bestimmten Anteil des Teams mitgetragen wird.
-                "/>
-                {% endif %}
-            </div>
+            {% signal 'opinioxx.base.signals.display_idea_icons' idea=idea view=view %}
         </div>
     </div>
 </div>
