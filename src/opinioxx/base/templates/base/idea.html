@@ -22,15 +22,18 @@
             </div>
         {% endif %}
     {% else %}
-        <div id="background{{ idea.id }}" class="rounded-left p-0 d-flex flex-column {{ idea.get_css }}"
-             style="min-width: 50px;">
+        <div id="background{{ idea.id }}" class="rounded-left p-0 d-flex flex-row align-items-center {{ idea.get_css }}"
+             style="min-width: 38px;">
+            <h2 class="text-light m-0 w-100 text-center" id="rating{{ idea.id }}">{{ idea.get_vote_value }}</h2>
+        </div>
+        <div class="d-flex flex-row">
             {% if voting_allowed %}
-                <div class="d-flex flex-column justify-content-between flex-fill">
+                <div class="d-flex flex-column justify-content-between flex-fill bg-dark">
                     <button id="{{ idea.id }}" type="button"
                             class="btn btn-outline-success btn-block border-0 m-0 upvote" data-toggle="tooltip"
                             data-placement="left"
                             title="Mit diesem Button unterstützt du dieses Feedback und gibst ihm deine Stimme.">
-                        <i class="arrow-up"></i>
+                        <img src="{% static 'base/icon_smiley_1.png' %}" style="width: 20px;">
                     </button>
                     <button type="button" id="{{ idea.id }}"
                             class="btn btn-outline-secondary btn-block border-0 flex-fill m-0 pl-1 pr-1 pt-0 pb-0
@@ -39,19 +42,15 @@
                             data-placement="left"
                             title="Mit diesem Button drückst du aus, dass du neutral zu diesem Feedback stehst. Das
                                     Feedback erhält keine Stimme und wird dir zukünftig nicht mehr als neu angezeigt.">
-                        <h2 class="text-light m-0" id="rating{{ idea.id }}">{{ idea.get_vote_value }}</h2>
+                        <img src="{% static 'base/icon_smiley_2.png' %}" style="width: 20px;">
                     </button>
                     <button type="button" class="btn btn-outline-danger btn-block border-0 m-0 downvote"
                             data-toggle="tooltip" id="{{ idea.id }}"
                             data-placement="left"
                             title="Mit diesem Button stimmst du gegen dieses Feedback und ihm wird eine Stimme
                                     abgezogen.">
-                        <i class="arrow-down"></i>
+                        <img src="{% static 'base/icon_smiley_3.png' %}" style="width: 20px;">
                     </button>
-                </div>
-            {% else %}
-                <div class="flex-fill m-0 text-center row align-items-center">
-                    <h2 class="text-light m-0 flex-fill" id="rating{{ idea.id }}">{{ idea.get_vote_value }}</h2>
                 </div>
             {% endif %}
         </div>
@@ -148,7 +147,8 @@
         </div>
         <div class="bg-secondary rounded-right text-right small text-light pr-2 font-italic">
             {% if not project.public_voting %}
-                #Beteiligungen: <p id="participation{{ idea.id }}" class="d-inline" style="">{{ idea.get_vote_count }}</p>,
+                #Beteiligungen:
+                <p id="participation{{ idea.id }}" class="d-inline" style="">{{ idea.get_vote_count }}</p>,
             {% endif %}
             {% if project.public_voting and not user.is_anonymous or not project.public_voting %}
                 #Favoriten: <p id="stars{{ idea.id }}" class="d-inline">{{ idea.get_star_count }}</p>,
