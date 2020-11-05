@@ -47,14 +47,16 @@
                         {{ comment.content | linebreaksbr }}
                     </p>
                 </div>
-                <div class="author text-dark pt-1">
-                    {% if comment.author == None %}
-                        Anonymous,
-                    {% else %}
-                        {% signal 'opinioxx.base.signals.display_user_icon' first=True project=project author=comment.author %}
-                        {{ comment.author }},
-                    {% endif %}
-                    {{ comment.date | date:'d.m.Y' }}
+                <div class="author pt-1 text-light d-flex">
+                    <p class="bg-dark pl-1 pr-1 rounded-lg m-0">
+                        {% if comment.author == None %}
+                            Anonymous,
+                        {% else %}
+                            {% signal 'opinioxx.base.signals.display_user_icon' first=True project=project author=comment.author %}
+                            {{ comment.author }},
+                        {% endif %}
+                        {{ comment.date | date:'d.m.Y' }}
+                    </p>
                 </div>
             {% endfor %}
             {% if not request.user.is_anonymous or project.public_visible and project.public_comments %}
