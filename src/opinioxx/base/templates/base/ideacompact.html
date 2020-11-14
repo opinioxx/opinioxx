@@ -6,7 +6,7 @@
     position-relative" id="idea{{ idea.id }}">
     {% voting_allowed project.id idea.id as voting_allowed %}
     {% if not idea.is_active %}
-        {% if idea.success %}
+        {% if idea.state == idea.SUCCESS %}
             <div class="rounded-left p-0 bg-success d-flex align-items-center"
                  style="min-width: 50px; width: 50px;">
                 <img src="{% static 'base/icon_check.png' %}" class="p-1" style="width: 50px;" data-toggle="tooltip"
