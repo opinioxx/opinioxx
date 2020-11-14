@@ -141,18 +141,18 @@ def cron(request):
     """ view to handle recurring tasks via curl requests """
     globalsettings = GlobalSettings.objects.get_or_create(id=1)[0]
     # send daily notifications
-    if globalsettings.last_notify < datetime.date.today():
+    if globalsettings.last_cron_run < datetime.date.today():
         for user in User.objects.filter(notify_interval=1).all():
             user.send_notification()
     # send weekly notifications
-    if globalsettings.last_notify.weekday() + (datetime.date.today() - globalsettings.last_notify).days > 7:
+    if globalsettings.last_cron_run.weekday() + (datetime.date.today() - globalsettings.last_cron_run).days > 7:
         for user in User.objects.filter(notify_interval=7).all():
             user.send_notification()
     # send monthly notifications
-    if datetime.date.today().day == 1 and globalsettings.last_notify.month != datetime.date.today().month:
+    if datetime.date.today().day == 1 and globalsettings.last_cron_run.month != datetime.date.today().month:
         for user in User.objects.filter(notify_interval=30).all():
             user.send_notification()
-    globalsettings.last_notify = datetime.date.today()
+    globalsettings.last_cron_run = datetime.date.today()
     globalsettings.save()
     return HttpResponse('OK')
 

@@ -79,7 +79,7 @@ class User(AbstractUser):
             # get all ideas not voted yet by this user
             ideas_db = project.idea_set.filter(
                 Q(active=True),
-                Q(date__gte=globalsettings.last_notify),
+                Q(date__gte=globalsettings.last_cron_run),
                 ~Q(date=datetime.date.today()),
                 ~Q(rating__user=self)
             ).order_by('date', 'id')
@@ -92,7 +92,7 @@ class User(AbstractUser):
             statechange_comments_db = Comment.objects.select_related('idea').filter(
                 Q(idea__project_id=project.id),
                 Q(idea__active=False),
-                Q(date__gte=globalsettings.last_notify),
+                Q(date__gte=globalsettings.last_cron_run),
                 ~Q(date=datetime.date.today()),
                 Q(statechange__isnull=False)
             ).order_by('date', 'id')
@@ -103,7 +103,7 @@ class User(AbstractUser):
                     statechange_comments.append(comment)
             # get all new comments not written by the user (if not commented anonymously)
             comments_db = project.idea_set.filter(
-                Q(comment__date__gte=globalsettings.last_notify),
+                Q(comment__date__gte=globalsettings.last_cron_run),
                 ~Q(date=datetime.date.today()),
                 ~Q(comment__author__id=self.id)
             ).distinct().order_by('date', 'id')
