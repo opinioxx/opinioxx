@@ -130,11 +130,11 @@
         </div>
         <div class="d-flex flex-row idea-description">
             {% if view == 'detail' %}
-                <div class="p-2 text-break text-light flex-fill">
+                <div class="m-2 text-break text-light flex-fill">
                     {{ idea.description }}
                 </div>
             {% else %}
-                <div class="p-2 text-break text-light collapse flex-fill" data-target="#description{{ idea.id }}"
+                <div class="m-2 text-break text-light collapse flex-fill" data-target="#description{{ idea.id }}"
                      aria-expanded="false" id="description{{ idea.id }}" style="width: 1px;">
                     {{ idea.description }}
                 </div>
