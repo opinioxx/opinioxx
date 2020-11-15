@@ -317,7 +317,7 @@ def idea(request, project_id, idea_id):
     project = get_object_or_404(Project, id=project_id)
     idea = get_object_or_404(Idea, pk=idea_id)
     if not project.access_allowed(user) or \
-            (not project.public_voting and user.is_anonymous):
+            (not project.public_visible and user.is_anonymous):
         raise PermissionDenied
     special_rights = False
     form = CommentForm(idea)
@@ -326,6 +326,8 @@ def idea(request, project_id, idea_id):
             or user.is_superuser or user in plugin_users:
         special_rights = True
     if request.method == 'POST':
+        if not project.public_voting and user.is_anonymous:
+            raise PermissionDenied
         form = CommentForm(idea, request.POST)
         if form.is_valid():
             comment = Comment(
