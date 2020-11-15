@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
 from django.db import models
 from django.db.models import Q
-from django.db.models.functions import datetime
+from django.db.models.functions import datetime, Lower
 
 from opinioxx.base.models import Favorite, GlobalSettings, Idea, Comment, Project
 from opinioxx.base.signals import get_projects_for_user
@@ -51,16 +51,16 @@ class User(AbstractUser):
     def get_projects(user):
         """ returns all projects that a given user is allowed to access """
         if user.is_anonymous:
-            projects = Project.objects.filter(public_visible=True)
+            projects = Project.objects.filter(public_visible=True).order_by(Lower('name'))
         elif user.is_superuser:
-            projects = Project.objects.all()
+            projects = Project.objects.all().order_by(Lower('name'))
         else:
             projects = Project.objects.filter(admins__id=user.id) | Project.objects.filter(
                 users__id=user.id) | Project.objects.filter(public_visible=True)
         for receiver, response in get_projects_for_user.send(user):
             if response:
                 projects = projects | response
-        return projects.distinct()
+        return projects.distinct().order_by(Lower('name'))
 
     def send_notification(self):
         """ Send a notification to the user if notifications are requested in the settings from the user. """
