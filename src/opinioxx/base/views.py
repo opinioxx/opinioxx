@@ -116,7 +116,8 @@ def newproject(request, project_id=None):
                 project.delete()
                 return HttpResponseRedirect(reverse('base:index'))
             elif form.is_valid():
-                form.save()
+                p = form.save()
+                p.add_notifications()
                 context['success'] = True
         return render(request, 'base/newproject.html', context)
     else:
