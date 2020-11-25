@@ -9,7 +9,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: update version
-          run: echo ${{ github.event.release.name }} > src/version.txt
+        run: echo ${{ github.event.release.name }} > src/version.txt
       - name: commit new version
         run: |
           git config --global user.name "github-actions"
