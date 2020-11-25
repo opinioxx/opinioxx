@@ -3,7 +3,7 @@ on:
   release:
     types: [published]
 jobs:
-  build-and-depoly-docker:
+  build-and-deploy-docker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -32,6 +32,6 @@ jobs:
           push: true
           cache-from: type=registry,ref=opinioxx/stable:latest
           cache-to: type=inline
-          tags: opinioxx/stable:latest, opinioxx/stable:${{ github.event.release.name }}
+          tags: opinioxx/stable:latest,opinioxx/stable:${{ github.event.release.name }}
       - name: Checkout code
         uses: actions/checkout@v2
