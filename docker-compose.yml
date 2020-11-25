@@ -1,0 +1,34 @@
+# This is an example for a docker-compose file. Adapt to own need.
+
+version: "3"
+
+services:
+
+  db:
+    image: mysql:latest
+    volumes:
+      - /docker/opinioxx/mysql:/var/lib/mysql
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 5
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      # SECURITY_WARNING: Use own password for productive usage!
+      MYSQL_ROOT_PASSWORD: ChangeSecureP4ssw0rd!
+      MYSQL_DATABASE: opinioxx
+      MYSQL_USER: root
+
+  opinioxx:
+    depends_on:
+      - db
+    image: opinioxx/stable:latest
+    ports:
+      - "8000:8000"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 5
+    volumes:
+      - /docker/opinioxx/settings.py:/opinioxx/src/opinioxx/settings.py
+      - /docker/opinioxx/data:/data

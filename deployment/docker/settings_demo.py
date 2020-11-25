@@ -21,7 +21,7 @@ SECRET_KEY = 'kcc8fir5s54deu8qnl)-5-^*kz1kna43)8lk3(u_4pf5k#4mq0'
 DEBUG = False
 
 # add hosts in your setup
-ALLOWED_HOSTS = ['demo.opinioxx.de']
+ALLOWED_HOSTS = ['demo.opinioxx.de', '127.0.0.1']
 
 # url for the installation
 BASE_URL = 'https://demo.opinioxx.de'
