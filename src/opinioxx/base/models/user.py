@@ -1,9 +1,11 @@
+import datetime
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
 from django.db import models
 from django.db.models import Q
-from django.db.models.functions import datetime, Lower
+from django.db.models.functions import Lower
 
 from opinioxx.base.models import Favorite, GlobalSettings, Idea, Comment, Project
 from opinioxx.base.signals import get_projects_for_user
@@ -78,10 +80,10 @@ class User(AbstractUser):
                 pass
             # get all ideas not voted yet by this user
             ideas_db = project.idea_set.filter(
-                Q(active=True),
+                Q(state=Idea.OPEN),
                 Q(date__gte=globalsettings.last_cron_run),
                 ~Q(date=datetime.date.today()),
-                ~Q(rating__user=self)
+                ~Q(vote__user=self)
             ).order_by('date', 'id')
             # remove all ideas that the user is not allowed to see
             ideas = []
@@ -91,10 +93,10 @@ class User(AbstractUser):
             # get all new comments that changed the state of an idea
             statechange_comments_db = Comment.objects.select_related('idea').filter(
                 Q(idea__project_id=project.id),
-                Q(idea__active=False),
+                Q(idea__state__in=[Idea.SUCCESS, Idea.REJECTED]),
                 Q(date__gte=globalsettings.last_cron_run),
                 ~Q(date=datetime.date.today()),
-                Q(statechange__isnull=False)
+                Q(category__in=[Comment.REOPEN, Comment.ACCEPT, Comment.CLOSE])
             ).order_by('date', 'id')
             # remove all comments that the user is not allowed to see
             statechange_comments = []
