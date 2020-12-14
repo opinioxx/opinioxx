@@ -98,6 +98,8 @@ main {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    height: 2em;
+    line-height: 2;
 }
 
 .idea-description > .collapsing {

@@ -162,11 +162,13 @@
         </div>
     </div>
     <script>
-        if ($('#description{{ idea.id }}')[0].scrollWidth > $('#description{{ idea.id }}').innerWidth()) {
+        if ($('#description{{ idea.id }}')[0].scrollWidth > $('#description{{ idea.id }}').innerWidth() ||
+            $('br', $('#description{{ idea.id }}')).length > 0) {
             $('#description{{ idea.id }}').siblings().css('visibility', 'visible');
         }
         $(window).resize(function () {
-            if ($('#description{{ idea.id }}')[0].scrollWidth > $('#description{{ idea.id }}').innerWidth()) {
+            if ($('#description{{ idea.id }}')[0].scrollWidth > $('#description{{ idea.id }}').innerWidth() ||
+                $('br', $('#description{{ idea.id }}')).length > 0) {
                 $('#description{{ idea.id }}').siblings().css('visibility', 'visible');
             } else {
                 if (!$('#description{{ idea.id }}').hasClass('show')) {
