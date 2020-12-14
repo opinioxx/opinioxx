@@ -91,7 +91,7 @@ class User(AbstractUser):
                 if project.voting_allowed(self) or idea.is_public_visible() or self.is_superuser:
                     ideas.append(idea)
             # get all new comments that changed the state of an idea
-            statechange_comments_db = Comment.objects.select_related('idea').filter(
+            category_comments_db = Comment.objects.select_related('idea').filter(
                 Q(idea__project_id=project.id),
                 Q(idea__state__in=[Idea.SUCCESS, Idea.REJECTED]),
                 Q(date__gte=globalsettings.last_cron_run),
@@ -99,10 +99,10 @@ class User(AbstractUser):
                 Q(category__in=[Comment.REOPEN, Comment.ACCEPT, Comment.CLOSE])
             ).order_by('date', 'id')
             # remove all comments that the user is not allowed to see
-            statechange_comments = []
-            for comment in statechange_comments_db:
+            category_comments = []
+            for comment in category_comments_db:
                 if project.voting_allowed(self) or comment.idea.is_public_visible() or self.is_superuser:
-                    statechange_comments.append(comment)
+                    category_comments.append(comment)
             # get all new comments not written by the user (if not commented anonymously)
             comments_db = project.idea_set.filter(
                 Q(comment__date__gte=globalsettings.last_cron_run),
@@ -115,7 +115,7 @@ class User(AbstractUser):
                 if project.voting_allowed(self) or idea.is_public_visible() or self.is_superuser:
                     comments.append(idea)
             # add items to the mail
-            if (ideas and self.notify_new_idea) or (statechange_comments and self.notify_state_changed) or (
+            if (ideas and self.notify_new_idea) or (category_comments and self.notify_state_changed) or (
                     comments and self.notify_comments):
                 message.append('')
                 message.append(f'{project.name}:')
@@ -124,13 +124,13 @@ class User(AbstractUser):
                         message.append(f'* Neues Feedback: {idea.title}')
                         changes = True
                 if self.notify_state_changed:
-                    for comment in statechange_comments:
+                    for comment in category_comments:
                         action = ''
-                        if comment.statechange == Comment.CLOSE:
+                        if comment.category == Comment.CLOSE:
                             action = 'Feedback abgelehnt:'
-                        elif comment.statechange == Comment.ACCEPT:
+                        elif comment.category == Comment.ACCEPT:
                             action = 'Feedback umgesetzt:'
-                        elif comment.statechange == Comment.REOPEN:
+                        elif comment.category == Comment.REOPEN:
                             action = 'Feedback wiedereröffnet:'
                         message.append(f'* {action} {comment.idea.title}')
                         changes = True

@@ -296,7 +296,7 @@ def vote(request, project_id):
                 content=f'Das Feedback wurde automatisch abgelehnt, da es {idea.get_vote_value()} Stimmen erhalten '
                         f'hat. Dieser Wert kann von dem Projekt-Administrator angepasst werden.',
                 idea=idea,
-                statechange=Comment.CLOSE
+                category=Comment.CLOSE
             )
             comment.save()
         star_new = True if not user.is_anonymous and idea.favorite_set.filter(user_id=user.id).exists() else False
