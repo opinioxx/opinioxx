@@ -88,7 +88,7 @@ class User(AbstractUser):
             # remove all ideas that the user is not allowed to see
             ideas = []
             for idea in ideas_db:
-                if project.voting_allowed(self) or idea.is_public_visible() or self.is_superuser:
+                if project.voting_allowed(self) or idea.project.access_allowed(self) or self.is_superuser:
                     ideas.append(idea)
             # get all new comments that changed the state of an idea
             category_comments_db = Comment.objects.select_related('idea').filter(
@@ -101,7 +101,7 @@ class User(AbstractUser):
             # remove all comments that the user is not allowed to see
             category_comments = []
             for comment in category_comments_db:
-                if project.voting_allowed(self) or comment.idea.is_public_visible() or self.is_superuser:
+                if project.voting_allowed(self) or comment.idea.project.access_allowed(self) or self.is_superuser:
                     category_comments.append(comment)
             # get all new comments not written by the user (if not commented anonymously)
             comments_db = project.idea_set.filter(
@@ -112,7 +112,7 @@ class User(AbstractUser):
             # remove all comments that the user is not allowed to see
             comments = []
             for idea in comments_db:
-                if project.voting_allowed(self) or idea.is_public_visible() or self.is_superuser:
+                if project.voting_allowed(self) or idea.project.access_allowed(self) or self.is_superuser:
                     comments.append(idea)
             # add items to the mail
             if (ideas and self.notify_new_idea) or (category_comments and self.notify_state_changed) or (
