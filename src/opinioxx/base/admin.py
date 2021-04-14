@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 
-from opinioxx.base.models import User, Idea, GlobalSettings
+from opinioxx.base.models import User, Idea, GlobalSettings, Comment
 
 
 class CustomUserAdmin(UserAdmin):
@@ -41,3 +41,4 @@ admin.site.unregister(Group)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Idea)
 admin.site.register(GlobalSettings)
+admin.site.register(Comment)
