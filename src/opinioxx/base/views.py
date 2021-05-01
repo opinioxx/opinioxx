@@ -13,7 +13,7 @@ from django.urls import reverse
 from opinioxx.base.forms import IdeaForm, ProjectForm, CustomUserCreationForm, CommentForm, \
     CustomPasswordChangeForm, EmailSettingsForm, VoteForm
 from opinioxx.base.models import Idea, Vote, User, Favorite, Project, Comment, GlobalSettings
-from opinioxx.base.signals import access_allowed_ideas
+from opinioxx.base.signals import access_allowed_ideas, run_cron_jobs
 
 
 def index(request, state=Project.OPEN):
@@ -157,6 +157,7 @@ def cron(request):
     if datetime.date.today().day == 1 and globalsettings.last_cron_run.month != datetime.date.today().month:
         for user in User.objects.filter(notify_interval=30).all():
             user.send_notification()
+    run_cron_jobs.send(request)
     globalsettings.last_cron_run = datetime.date.today()
     globalsettings.save()
     return HttpResponse('OK')
