@@ -10,7 +10,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Persöhnliche Informationen', {'fields': ('first_name', 'last_name', 'email')}),
-        ('Berechtigungen', {'fields': ('is_active', 'is_superuser')}),
+        ('Berechtigungen', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
         ('Wichtige Daten', {'fields': ('date_joined',)}),
         # *UserAdmin.fieldsets,  # original form fieldsets, expanded
         (  # new fieldset added to the bottom
