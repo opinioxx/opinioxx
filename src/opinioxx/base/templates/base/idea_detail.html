@@ -92,7 +92,12 @@
                         </div>
                     </div>
                 </form>
-                <div class="author"><p id="author_name" class="d-inline">{{ author }}</p>, {% now 'd.m.Y' %}</div>
+                <div class="author pt-1 text-light d-flex">
+                    <div class="bg-dark pl-1 pr-1 rounded-lg m-0">
+                    <p id="author_name" class="d-inline">{{ author }}</p>
+                        , {% now 'd.m.Y' %}
+                    </div>
+                </div>
             {% endif %}
         </div>
     </div>
