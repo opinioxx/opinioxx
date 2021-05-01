@@ -341,19 +341,20 @@ def idea(request, project_id, idea_id):
                 author=user if not form.cleaned_data['anonymous'] and not user.is_anonymous else None,
                 idea=idea,
             )
-            if not form.cleaned_data['anonymous']:
-                if form.cleaned_data['archive'].__contains__('success'):
-                    idea.state = Idea.SUCCESS
-                    comment.category = Comment.ACCEPT
-                elif form.cleaned_data['archive'].__contains__('failure'):
-                    idea.state = Idea.REJECTED
-                    comment.category = Comment.CLOSE
-                elif form.cleaned_data['archive'].__contains__('reopen'):
-                    idea.state = Idea.OPEN
-                    comment.category = Comment.REOPEN
-                idea.save()
-            comment.save()
-            form = CommentForm(idea)
+            if not Comment.objects.filter(content=comment.content):
+                if not form.cleaned_data['anonymous']:
+                    if form.cleaned_data['archive'].__contains__('success'):
+                        idea.state = Idea.SUCCESS
+                        comment.category = Comment.ACCEPT
+                    elif form.cleaned_data['archive'].__contains__('failure'):
+                        idea.state = Idea.REJECTED
+                        comment.category = Comment.CLOSE
+                    elif form.cleaned_data['archive'].__contains__('reopen'):
+                        idea.state = Idea.OPEN
+                        comment.category = Comment.REOPEN
+                    idea.save()
+                comment.save()
+                form = CommentForm(idea)
     if special_rights:
         form.fields['anonymous'].widget.attrs['checked'] = False
     context = {
