@@ -7,6 +7,8 @@ from opinioxx.base.signals import add_notifications, access_allowed_project, pro
 
 class Project(models.Model):
     """ A project is the frame for a set of Ideas with all necessary meta information. """
+    OPEN = 'O'
+    ARCHIVED = 'A'
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=500, blank=True)
     admins = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='admins')
@@ -19,6 +21,10 @@ class Project(models.Model):
     new_idea_description = models.CharField(max_length=500, blank=True)
     max_favorites = models.IntegerField(default=1)
     favorite_value = models.FloatField(default=1)
+    state = models.CharField(max_length=1, default=OPEN, choices=[
+        (OPEN, 'open'),
+        (ARCHIVED, 'archived'),
+    ])
 
     def __str__(self):
         return self.name
@@ -63,3 +69,6 @@ class Project(models.Model):
             if response:
                 users = users | response
         return users
+
+    def archived(self):
+        return self.state == Project.ARCHIVED

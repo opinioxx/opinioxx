@@ -189,6 +189,20 @@ class ProjectForm(ModelForm):
             }
         )
     )
+    state = forms.ChoiceField(
+        label='Status',
+        help_text='Status des Projekts: offen (es kann abgestimmt werden) '
+                  'oder archiviert (Projekt kann nicht mehr verändert werden)',
+        choices=[
+            (Project.OPEN, 'offen'),
+            (Project.ARCHIVED, 'archiviert'),
+        ],
+        widget=forms.Select(
+            attrs={
+                'class': 'form-input, w-100',
+            }
+        )
+    )
 
     class Meta:
         model = Project

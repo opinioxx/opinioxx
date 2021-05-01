@@ -4,6 +4,7 @@ from opinioxx.base import views
 from django.contrib.auth import views as auth_views
 
 from opinioxx.base.forms import LoginForm
+from opinioxx.base.models import Project
 
 app_name = 'base'
 
@@ -28,6 +29,7 @@ urlpatterns = [
     path('new', views.newproject, name='newproject'),
     path('<int:project_id>', views.project, name='project'),
     path('<int:project_id>/c', views.project, {'compact': True}, name='projectcompact'),
+    path('archive', views.index, {'state': Project.ARCHIVED}, name='projectarchive'),
     path('<int:project_id>/edit', views.newproject, name='editproject'),
     path('<int:project_id>/new', views.newidea, name='newidea'),
     path('<int:project_id>/<int:idea_id>/detail', views.idea, name='idea'),

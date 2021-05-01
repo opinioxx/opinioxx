@@ -16,12 +16,16 @@ from opinioxx.base.models import Idea, Vote, User, Favorite, Project, Comment, G
 from opinioxx.base.signals import access_allowed_ideas
 
 
-def index(request):
+def index(request, state=Project.OPEN):
     """ index-view to display available projects """
     user = get_user(request)
+    if state == Project.OPEN:
+        new_project_allowed = (settings.ALLOW_NEW_PROJECTS and not user.is_anonymous) or request.user.is_superuser
+    else:
+        new_project_allowed = False
     context = {
-        'new_project_allowed': (settings.ALLOW_NEW_PROJECTS and not user.is_anonymous) or request.user.is_superuser,
-        'projects': User.get_projects(user),
+        'new_project_allowed': new_project_allowed,
+        'projects': User.get_projects(user, state),
     }
     return render(request, 'base/index.html', context)
 
@@ -162,7 +166,7 @@ def newidea(request, project_id):
     """ view to store a new idea for a given project """
     user = get_user(request)
     project = get_object_or_404(Project, id=project_id)
-    if not project.access_allowed(user):
+    if not project.access_allowed(user) or project.archived():
         raise PermissionDenied
     context = {
         'form': IdeaForm(),
@@ -222,7 +226,7 @@ def project(request, project_id, archive=False, compact=False):
         'user': user,
         'show_settings': user in project.admins.all(),
         'ideas': ideas,
-        'archive': archive,
+        'archive': archive if project.state != Project.ARCHIVED else True,
         'compact': compact,
         'view': 'project',
     }
@@ -234,7 +238,7 @@ def vote(request, project_id):
     user = get_user(request)
     project = get_object_or_404(Project, id=project_id)
     idea = None
-    if not project.access_allowed(user) or not project.voting_allowed(user):
+    if not project.access_allowed(user) or not project.voting_allowed(user) or project.archived():
         return JsonResponse({'error': 'Es ist ein unerwarteter Fehler aufgetreten! Die Seite wird neu geladen.'})
     if request.POST:
         vote_data = VoteForm(request.POST)

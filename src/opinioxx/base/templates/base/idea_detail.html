@@ -59,7 +59,7 @@
                     </p>
                 </div>
             {% endfor %}
-            {% if not request.user.is_anonymous or project.public_visible and project.public_comments %}
+            {% if not project.archived and not request.user.is_anonymous or project.public_visible and project.public_comments %}
                 <form method="post"
                       class="form {% if author == 'Anonymous' %}speech-bubble{% else %}speech-bubble-info{% endif %}
                       mt-4">

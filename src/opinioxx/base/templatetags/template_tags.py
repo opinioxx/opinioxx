@@ -39,6 +39,8 @@ def voting_allowed(context, project_id, idea_id):
         user = get_user(request)
         if user.is_superuser:
             return False
+        if project.state == project.ARCHIVED:
+            return False
         if user.is_anonymous:
             if project.public_voting:
                 # check if anonymous user already voted and the idea is stored in his session

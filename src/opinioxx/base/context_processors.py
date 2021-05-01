@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import get_user
 
-from opinioxx.base.models import User
+from opinioxx.base.models import User, Project
 
 
 def common_variables(request):
@@ -11,6 +11,6 @@ def common_variables(request):
     context = {
         'site_title': settings.TITLE,
         'version': settings.VERSION_NUMBER,
-        'projects': projects,
+        'open_projects': projects,
     }
     return context

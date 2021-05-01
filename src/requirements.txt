@@ -2,3 +2,4 @@ Django==3.2
 daphne==3.0.2
 whitenoise==5.2.0
 mysqlclient==2.0.3
+django-rename-app==0.1.3

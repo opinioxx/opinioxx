@@ -50,15 +50,15 @@ class User(AbstractUser):
             return allowed_favorites - used_stars
 
     @staticmethod
-    def get_projects(user):
+    def get_projects(user, state=Project.OPEN):
         """ returns all projects that a given user is allowed to access """
         if user.is_anonymous:
-            projects = Project.objects.filter(public_visible=True).order_by(Lower('name'))
+            projects = Project.objects.filter(public_visible=True, state=state).order_by(Lower('name'))
         elif user.is_superuser:
-            projects = Project.objects.all().order_by(Lower('name'))
+            projects = Project.objects.all().filter(state=state).order_by(Lower('name'))
         else:
-            projects = Project.objects.filter(admins__id=user.id) | Project.objects.filter(
-                users__id=user.id) | Project.objects.filter(public_visible=True)
+            projects = Project.objects.filter(admins__id=user.id, state=state) | Project.objects.filter(
+                users__id=user.id, state=state) | Project.objects.filter(public_visible=True, state=state)
         for receiver, response in get_projects_for_user.send(user):
             if response:
                 projects = projects | response

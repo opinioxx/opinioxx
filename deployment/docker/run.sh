@@ -8,6 +8,7 @@ fi
 
 cd /opinioxx/src || exit 1
 ./manage.py collectstatic --clear --noinput
+./manage.py rename_app managers premium
 ./manage.py migrate
 
 if [ "$1" == "load_demo_data" ]
